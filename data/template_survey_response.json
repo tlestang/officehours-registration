@@ -1,0 +1,57 @@
+{
+  "result": {
+    "responseId": "R_2VmWKDvitMVvFOI",
+    "values": {
+      "startDate": "2023-04-20T10:02:59Z",
+      "endDate": "2023-04-20T10:03:34Z",
+      "status": 1,
+      "progress": 100,
+      "duration": 34,
+      "finished": 1,
+      "recordedDate": "2023-04-20T10:03:34.884Z",
+      "locationLatitude": "51.7128",
+      "locationLongitude": "-1.2347",
+      "distributionChannel": "preview",
+      "userLanguage": "EN",
+      "QID2_TEXT": "Thibault Lestang",
+      "QID1_TEXT": "t.lestang@imperial.ac.uk",
+      "QID3": 3,
+      "QID3_DO": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "QID4_TEXT": "I'd like to fix my code."
+    },
+    "labels": {
+      "status": "Survey Preview",
+      "finished": "True",
+      "QID3": "11:50 - 12:10",
+      "QID3_DO": [
+        "11:00 - 11:20",
+        "11:25 - 11:45",
+        "11:50 - 12:10",
+        "12:15 - 12:35"
+      ]
+    },
+    "displayedFields": [
+      "QID3",
+      "QID1_TEXT",
+      "QID4_TEXT",
+      "QID2_TEXT"
+    ],
+    "displayedValues": {
+      "QID3": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  "meta": {
+    "requestId": "ef97b805-7c41-474c-b324-22d53b19683d",
+    "httpStatus": "200 - OK"
+  }
+}
