@@ -2,16 +2,6 @@ import os
 import requests
 import json
 from datetime import datetime, timedelta
-from bisect import bisect_right
-
-
-def find_gt(a, x):
-    'Find leftmost value greater than x'
-    i = bisect_right(a, x)
-    if i != len(a):
-        return i, a[i]
-    raise ValueError
-
 
 datelist = [
     "2023-04-17T11:00:00",
@@ -75,7 +65,14 @@ survey_name = (
 )
 
 # Update survey name
-data = {"name": survey_name}
+data = {
+    "name": survey_name,
+    "isActive": True,
+    "expiration": {
+        "startDate": datetime.now().isoformat(),
+        "endDate": next_date.isoformat(),
+    }
+}
 baseUrl = "https://{0}.qualtrics.com/API/v3/surveys/{1}".format(dataCenter, surveyId)
 response = requests.put(baseUrl, json=data, headers=headers)
 print(response)

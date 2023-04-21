@@ -2,72 +2,20 @@
 # https://api.qualtrics.com/ZG9jOjg3NzY3MQ-retrieve-survey-responses-in-real-time
 # https://api.qualtrics.com/9c31e43fef682-create-subscription
 
-from datetime import datetime, time
+
 import os
-import re
 import sys
-from bisect import bisect_right
-import json
 
 from flask import Flask, request, url_for, redirect
-import requests
 
-from outlook import get_outlook_token, create_outlook_event, init_graphclient
-
-
-def parsey(c):
-    x = c.decode().split("&")
-    d = {}
-    for i in x:
-        a, b = i.split("=")
-        d[a] = b
-    return d
-
-
-def get_survey_response(d, data_center, api_token, fp=None):
-    if fp:
-        with open(fp, "r") as f:
-            rsp = json.load(f)
-    else:
-        rsp = getReponse(d, data_center, api_token)
-
-    response_values = rsp["result"]["values"]
-
-    email = response_values["QID1_TEXT"]
-    pb_description = response_values["QID4_TEXT"]
-    time_slot = rsp["result"]["labels"]["QID3"]
-
-    # time_slot is a string of the form "HH:MM - HH:MM" so now we have
-    # to parse it into two datetime.time instances
-    starttime, endtime = [
-        datetime.strptime(s, "%H:%M").time()
-        for s in re.findall(r"\d\d:\d\d", time_slot)
-    ]
-    date = datetime.strptime(
-        re.search(r'\d\d-\d\d-\d\d\d\d', time_slot).group(),
-        '%d-%m-%Y'
-    )
-    start = datetime.combine(date, starttime)
-    end = datetime.combine(date, endtime)
-
-    return email, start, end, pb_description
-
-
-def getReponse(d, data_center, api_token):
-    responseId = d["ResponseID"]
-    surveyId = d["SurveyID"]
-    headers = {
-        "content-type": "application/json",
-        "x-api-token": api_token,
-    }
-
-    url = (
-        "https://{0}.qualtrics.com/API/v3/surveys/"
-        "{1}/responses/{2}".format(data_center, surveyId, responseId)
-    )
-
-    rsp = requests.get(url, headers=headers)
-    return rsp.json()
+from find_next_sessions import find_next_two_dates
+from qualtrics import (
+    parsey, get_survey_response, update_available_slots,
+    update_survey_name_and_status,
+)
+from outlook import (
+    get_outlook_token, create_outlook_event, init_graphclient
+)
 
 
 app = Flask(__name__)
@@ -101,3 +49,31 @@ def msgraph_authenticate():
     get_outlook_token()
 
     return redirect(url_for("handle"))
+
+
+@app.route("/update", methods=['POST'])
+def update_survey():
+    d = parsey(request.get_data())
+    try:
+        apiToken = os.environ["APIKEY"]
+        dataCenter = os.environ["DATACENTER"]
+    except KeyError:
+        print("set environment variables APIKEY and DATACENTER")
+        sys.exit(2)
+
+    date, next_date = find_next_two_dates()
+    r = update_available_slots(
+        date, next_date,
+        apiToken, dataCenter,
+        surveyId=d["SurveyID"], questionID="QID3"
+    )
+    if r:
+        return r
+    r = update_survey_name_and_status(
+        date, apiToken, dataCenter, surveyId=d["SurveyID"]
+    )
+    if r:
+        return r
+    else:
+        return "Survey successfully updated.\n"
+
