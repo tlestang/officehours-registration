@@ -127,3 +127,27 @@ def update_survey_name_and_status(date, apiToken, dataCenter, surveyId):
     if r.status_code != requests.codes.ok:
         return r.json()
     return None
+
+
+def list_quota_by_id(SurveyID, apiToken, dataCenter):
+    url = (
+        f"https://{dataCenter}.qualtrics.com/API/v3/survey-definitions/"
+        f"{SurveyID}/quotas"
+    )
+    headers = {"Content-Type": "application/json", "X-API-TOKEN": apiToken}
+    r = requests.get(url, headers=headers).json()
+    return r["result"]["elements"]
+
+
+def reset_quota(quota_data, SurveyID, apiToken, dataCenter):
+    quota_data["Count"] = 0
+    headers = {"Content-Type": "application/json", "X-API-TOKEN": apiToken}
+    quotaID = quota_data["ID"]
+    url = (
+        f"https://{dataCenter}.qualtrics.com/API/v3/survey-definitions/"
+        f"{SurveyID}/quotas/{quotaID}"
+    )
+    r = requests.put(url, json=quota_data, headers=headers)
+    if r.status_code != requests.codes.ok:
+        return r.json()
+    return None

@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "httpStatus": "200 - OK",
+    "requestId": "6274e8de-254a-4fe7-b78f-1049d6762b21",
+    "notice": "Request proxied. For faster response times, use this host instead: fra1.qualtrics.com"
+  },
+  "result": {
+    "nextPage": null,
+    "elements": [
+      {
+        "Name": "First slot",
+        "Occurrences": 1,
+        "Logic": {
+          "0": {
+            "0": {
+              "LogicType": "Question",
+              "QuestionID": "QID3",
+              "QuestionIsInLoop": "no",
+              "ChoiceLocator": "q://QID3/SelectableChoice/1",
+              "Operator": "Selected",
+              "QuestionIDFromLocator": "QID3",
+              "LeftOperand": "q://QID3/SelectableChoice/1",
+              "Type": "Expression",
+              "Description": "<span class=\"ConjDesc\">If</span> <span class=\"QuestionDesc\">Choose a time</span> <span class=\"LeftOpDesc\">11:00 - 11:20</span> <span class=\"OpDesc\">Is Selected</span> "
+            },
+            "Type": "If"
+          },
+          "Type": "BooleanExpression"
+        },
+        "LogicType": "Simple",
+        "QuotaAction": "ForBranching",
+        "OverQuotaAction": "Record",
+        "ActionInfo": {
+          "0": {
+            "0": {
+              "ActionType": "ForBranching",
+              "Type": "Expression",
+              "LogicType": "QuotaAction"
+            },
+            "Type": "If"
+          },
+          "Type": "BooleanExpression"
+        },
+        "ID": "QO_0aobVEPrLegh5jN",
+        "QuotaRealm": "Survey",
+        "QuotaSchedule": null,
+        "EndSurveyOptions": {
+          "EndingType": "Default",
+          "ResponseFlag": "QuotaMet",
+          "SurveyTermination": "DefaultMessage"
+        },
+        "Count": 0
+      },
+      {
+        "Name": "Third slot",
+        "Occurrences": 1,
+        "Logic": {
+          "0": {
+            "0": {
+              "LogicType": "Question",
+              "QuestionID": "QID3",
+              "QuestionIsInLoop": "no",
+              "ChoiceLocator": "q://QID3/SelectableChoice/3",
+              "Operator": "Selected",
+              "QuestionIDFromLocator": "QID3",
+              "LeftOperand": "q://QID3/SelectableChoice/3",
+              "Type": "Expression",
+              "Description": "<span class=\"ConjDesc\">If</span> <span class=\"QuestionDesc\">Choose a time</span> <span class=\"LeftOpDesc\">11:50 - 12:10</span> <span class=\"OpDesc\">Is Selected</span> "
+            },
+            "Type": "If"
+          },
+          "Type": "BooleanExpression"
+        },
+        "LogicType": "Simple",
+        "QuotaAction": "ForBranching",
+        "OverQuotaAction": "Record",
+        "ActionInfo": {
+          "0": {
+            "0": {
+              "ActionType": "ForBranching",
+              "Type": "Expression",
+              "LogicType": "QuotaAction"
+            },
+            "Type": "If"
+          },
+          "Type": "BooleanExpression"
+        },
+        "ID": "QO_9DWu2b8D1wtDfID",
+        "QuotaRealm": "Survey",
+        "QuotaSchedule": null,
+        "EndSurveyOptions": {
+          "EndingType": "Default",
+          "ResponseFlag": "QuotaMet",
+          "SurveyTermination": "DefaultMessage"
+        },
+        "Count": 0
+      },
+      {
+        "Name": "Fourth slot",
+        "Occurrences": 1,
+        "Logic": {
+          "0": {
+            "0": {
+              "LogicType": "Question",
+              "QuestionID": "QID3",
+              "QuestionIsInLoop": "no",
+              "ChoiceLocator": "q://QID3/SelectableChoice/4",
+              "Operator": "Selected",
+              "QuestionIDFromLocator": "QID3",
+              "LeftOperand": "q://QID3/SelectableChoice/4",
+              "Type": "Expression",
+              "Description": "<span class=\"ConjDesc\">If</span> <span class=\"QuestionDesc\">Choose a time</span> <span class=\"LeftOpDesc\">12:15 - 12:35</span> <span class=\"OpDesc\">Is Selected</span> "
+            },
+            "Type": "If"
+          },
+          "Type": "BooleanExpression"
+        },
+        "LogicType": "Simple",
+        "QuotaAction": "ForBranching",
+        "OverQuotaAction": "Record",
+        "ActionInfo": {
+          "0": {
+            "0": {
+              "ActionType": "ForBranching",
+              "Type": "Expression",
+              "LogicType": "QuotaAction"
+            },
+            "Type": "If"
+          },
+          "Type": "BooleanExpression"
+        },
+        "ID": "QO_Ld3arcek809OWmW",
+        "QuotaRealm": "Survey",
+        "QuotaSchedule": null,
+        "EndSurveyOptions": {
+          "EndingType": "Default",
+          "ResponseFlag": "QuotaMet",
+          "SurveyTermination": "DefaultMessage"
+        },
+        "Count": 0
+      },
+      {
+        "Name": "Second slot",
+        "Occurrences": 1,
+        "Logic": {
+          "0": {
+            "0": {
+              "LogicType": "Question",
+              "QuestionID": "QID3",
+              "QuestionIsInLoop": "no",
+              "ChoiceLocator": "q://QID3/SelectableChoice/2",
+              "Operator": "Selected",
+              "QuestionIDFromLocator": "QID3",
+              "LeftOperand": "q://QID3/SelectableChoice/2",
+              "Type": "Expression",
+              "Description": "<span class=\"ConjDesc\">If</span> <span class=\"QuestionDesc\">Choose a time</span> <span class=\"LeftOpDesc\">11:25 - 11:45</span> <span class=\"OpDesc\">Is Selected</span> "
+            },
+            "Type": "If"
+          },
+          "Type": "BooleanExpression"
+        },
+        "LogicType": "Simple",
+        "QuotaAction": "ForBranching",
+        "OverQuotaAction": "Record",
+        "ActionInfo": {
+          "0": {
+            "0": {
+              "ActionType": "ForBranching",
+              "Type": "Expression",
+              "LogicType": "QuotaAction"
+            },
+            "Type": "If"
+          },
+          "Type": "BooleanExpression"
+        },
+        "ID": "QO_NEd97QrrSheeg83",
+        "QuotaRealm": "Survey",
+        "QuotaSchedule": null,
+        "EndSurveyOptions": {
+          "EndingType": "Default",
+          "ResponseFlag": "QuotaMet",
+          "SurveyTermination": "DefaultMessage"
+        },
+        "Count": 0
+      }
+    ]
+  }
+}
