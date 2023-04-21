@@ -32,7 +32,11 @@ with open("data/template_question.json", "r") as f:
 
 for key in [str(i) for i in range(1, nchoices + 1)]:
     end = start + slot_duration
-    content["Choices"][key]["Display"] = "{0:%H}:{0:%M} - {1:%H}:{1:%M}".format(start, end)
+    choice_display = (
+        f"{start:%H}:{start:%M} - {end:%H}:{end:%M}"
+        f" ({next_date:%d-%m-%Y})"
+    )
+    content["Choices"][key]["Display"] = choice_display
     start = end + break_duration
 
 session_full_msg = (

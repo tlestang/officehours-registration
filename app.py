@@ -40,11 +40,18 @@ def get_survey_response(d, data_center, api_token, fp=None):
 
     # time_slot is a string of the form "HH:MM - HH:MM" so now we have
     # to parse it into two datetime.time instances
-    s, e = re.findall(r"(\d\d):(\d\d)", time_slot)
-    starttime = time(hour=int(s[0]), minute=int(s[1]))
-    endtime = time(hour=int(e[0]), minute=int(e[1]))
+    starttime, endtime = [
+        datetime.strptime(s, "%H:%M").time()
+        for s in re.findall(r"\d\d:\d\d", time_slot)
+    ]
+    date = datetime.strptime(
+        re.search(r'\d\d-\d\d-\d\d\d\d', time_slot).group(),
+        '%d-%m-%Y'
+    )
+    start = datetime.combine(date, starttime)
+    end = datetime.combine(date, endtime)
 
-    return email, starttime, endtime, pb_description
+    return email, start, end, pb_description
 
 
 def getReponse(d, data_center, api_token):
@@ -64,21 +71,6 @@ def getReponse(d, data_center, api_token):
     return rsp.json()
 
 
-def get_event_date(path):
-    def find_gt(a, x):
-        "Find leftmost value greater than x"
-        i = bisect_right(a, x)
-        if i != len(a):
-            return i, a[i]
-        raise ValueError
-
-    with open(path, "r") as f:
-        dates = [datetime.fromisoformat(d.strip()) for d in f]
-
-    _, date = find_gt(dates, datetime.today())
-    return date
-
-
 app = Flask(__name__)
 graph_token = None
 
@@ -95,22 +87,10 @@ def handle():
             print("set environment variables APIKEY and DATACENTER")
             sys.exit(2)
 
-        (
-            email,
-            starttime,
-            endtime,
-            pb_description,
-        ) = get_survey_response(
+        meeting_info = get_survey_response(
             d, dataCenter, apiToken, fp="data/template_survey_response.json"
         )
 
-        date = get_event_date("dates.txt")
-        meeting_info = (
-            email,
-            datetime.combine(date, starttime),
-            datetime.combine(date, endtime),
-            pb_description,
-        )
         return create_outlook_event(*meeting_info)
     else:
         return "<p>Hello, World</p>"
