@@ -32,11 +32,10 @@ def get_survey_response(d, data_center, api_token, fp=None):
         rsp = getReponse(d, data_center, api_token)
 
     response_values = rsp["result"]["values"]
-    available_slots = rsp["result"]["labels"]["QID3_DO"]
 
     email = response_values["QID1_TEXT"]
     pb_description = response_values["QID4_TEXT"]
-    time_slot = available_slots[response_values["QID3"]]
+    time_slot = rsp["result"]["labels"]["QID3"]
 
     # time_slot is a string of the form "HH:MM - HH:MM" so now we have
     # to parse it into two datetime.time instances
@@ -88,7 +87,7 @@ def handle():
             sys.exit(2)
 
         meeting_info = get_survey_response(
-            d, dataCenter, apiToken, fp="data/template_survey_response.json"
+            d, dataCenter, apiToken
         )
 
         return create_outlook_event(*meeting_info)
