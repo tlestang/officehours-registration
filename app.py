@@ -64,7 +64,12 @@ def update_survey():
 
     date, next_date = find_next_two_dates()
     r = update_available_slots(
-        date, next_date, apiToken, dataCenter, surveyId=d["SurveyID"], questionID="QID3"
+        date,
+        next_date,
+        apiToken,
+        dataCenter,
+        surveyId=d["SurveyID"],
+        questionID="QID3",
     )
     if r:
         return r
@@ -76,7 +81,10 @@ def update_survey():
 
     quotas = list_quota_by_id(d["SurveyID"], apiToken, dataCenter)
     fp = functools.partial(
-        reset_quota, SurveyID=d["SurveyID"], apiToken=apiToken, dataCenter=dataCenter
+        reset_quota,
+        SurveyID=d["SurveyID"],
+        apiToken=apiToken,
+        dataCenter=dataCenter,
     )
     for r in map(fp, quotas):
         if r:

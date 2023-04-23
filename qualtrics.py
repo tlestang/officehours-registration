@@ -54,15 +54,18 @@ def getReponse(d, data_center, api_token):
         "x-api-token": api_token,
     }
 
-    url = "https://{0}.qualtrics.com/API/v3/surveys/" "{1}/responses/{2}".format(
-        data_center, surveyId, responseId
+    url = (
+        "https://{0}.qualtrics.com/API/v3/surveys/"
+        "{1}/responses/{2}".format(data_center, surveyId, responseId)
     )
 
     rsp = requests.get(url, headers=headers)
     return rsp.json()
 
 
-def update_available_slots(date, next_date, apiToken, dataCenter, surveyId, questionID):
+def update_available_slots(
+    date, next_date, apiToken, dataCenter, surveyId, questionID
+):
     nchoices = 4
     slot_duration = timedelta(minutes=20)
     break_duration = timedelta(minutes=5)
