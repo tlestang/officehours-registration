@@ -38,7 +38,12 @@ def get_survey_response(d, data_center, api_token, fp=None):
     start = datetime.combine(date, starttime)
     end = datetime.combine(date, endtime)
 
-    return email, start, end, pb_description
+    # The time slot string also contains information about the room
+    if "Online" in time_slot:
+        room = None
+    else:
+        room = re.search(r"CAGB-\d\d-\d\d\d", time_slot).group()
+    return email, start, end, room, pb_description
 
 
 def getReponse(d, data_center, api_token):
@@ -61,7 +66,7 @@ def update_available_slots(date, next_date, apiToken, dataCenter, surveyId, ques
     nchoices = 4
     slot_duration = timedelta(minutes=20)
     break_duration = timedelta(minutes=5)
-    start = date
+    start = date[0]
 
     with open("data/template_question.json", "r") as f:
         content = json.load(f)
@@ -69,15 +74,16 @@ def update_available_slots(date, next_date, apiToken, dataCenter, surveyId, ques
     for key in [str(i) for i in range(1, nchoices + 1)]:
         end = start + slot_duration
         choice_display = (
-            f"{start:%H}:{start:%M} - {end:%H}:{end:%M}" f" ({date:%d-%m-%Y})"
+            f"{start:%H}:{start:%M} - {end:%H}:{end:%M}"
+            f" ({date[0]:%d-%m-%Y}, {date[1]})"
         )
         content["Choices"][key]["Display"] = choice_display
         start = end + break_duration
 
     session_full_msg = (
         "There are no slots remaining for this session."
-        f" The next session is planned for {next_date}."
-        f" Sign up will open on {date:%d:%m:%Y} at {date:%H:%M}."
+        f" The next session is planned for {next_date[0]}."
+        f" Sign up will open on {date[0]:%d:%m:%Y} at {date[0]:%H:%M}."
     )
     content["Choices"][str(nchoices + 2)]["Display"] = session_full_msg
 
@@ -99,8 +105,9 @@ def update_available_slots(date, next_date, apiToken, dataCenter, surveyId, ques
 
 def update_survey_name_and_status(date, apiToken, dataCenter, surveyId):
     survey_name = (
-        f"RSE office hours - {date.date()}"
-        f" ({date:%H:%M} - {date +  timedelta(minutes=95):%H:%M})"
+        f"RSE office hours - {date[0].date()}"
+        f" ({date[0]:%H:%M} - {date[0] +  timedelta(minutes=95):%H:%M},"
+        f" {date[1]})"
     )
 
     data = {
@@ -110,7 +117,7 @@ def update_survey_name_and_status(date, apiToken, dataCenter, surveyId):
             # Qualtrics API expects times in UTC
             # https://en.wikipedia.org/wiki/List_of_military_time_zones
             "startDate": datetime.now().isoformat() + "Z",
-            "endDate": date.isoformat() + "Z",
+            "endDate": date[0].isoformat() + "Z",
         },
     }
 

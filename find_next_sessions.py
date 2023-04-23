@@ -1,3 +1,4 @@
+import csv
 from datetime import datetime
 from bisect import bisect_right
 
@@ -14,9 +15,13 @@ def find_gt(a, x):
 
 
 def find_next_two_dates():
-    with open(DATELIST_P, "r") as f:
-        dates = [datetime.fromisoformat(d.strip()) for d in f]
-        next_session = find_gt(dates, datetime.now())
-        next_next_session = find_gt(dates, next_session)
-
-        return next_session, next_next_session
+    with open(DATELIST_P, "r", newline="") as f:
+        reader = csv.reader(f, delimiter=",")
+        schedule = [
+            (datetime.fromisoformat(row[0]), row[1])
+            for row in reader
+        ]
+    i = bisect_right(
+        schedule, datetime.now(), key=lambda x: x[0]
+    )
+    return schedule[i], schedule[i+1]

@@ -16,7 +16,7 @@ def get_outlook_token():
     token = graph.get_user_token()
 
 
-def create_outlook_event(email, start, end, description):
+def create_outlook_event(email, start, end, room, description):
     url = "https://graph.microsoft.com/v1.0/me/events"
     payload = {
         "Subject": "RSE Office hours",
@@ -42,6 +42,15 @@ def create_outlook_event(email, start, end, description):
             },
         ],
     }
+
+    if room:
+        payload["location"] = {
+            "displayName": room,
+            "locationType": "default",
+        }
+    else:
+        payload["isOnlineMeeting"] = True
+        payload["onlineMeetingProvider"] = "teamsForBusiness"
 
     headers = {
         "Authorization": f"Bearer {token}",
