@@ -1,10 +1,9 @@
+import os
 import requests
 
 # Setting user Parameters
-with open("qualtrics_token.txt", "r") as f:
-    apiToken = f.read()
-
-dataCenter = "fra1"
+apiToken = os.environ["APIKEY"]
+dataCenter = os.environ["DATACENTER"]
 
 surveyId = "SV_8o95nhN17cI6naK"
 questionId = "QID3"
